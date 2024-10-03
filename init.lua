@@ -386,6 +386,7 @@ require('lazy').setup({
         --   },
         -- },
         -- pickers = {}
+
         defaults = {
           mappings = {
             i = {
@@ -407,25 +408,25 @@ require('lazy').setup({
       local builtin = require 'telescope.builtin'
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = 'Search [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-      vim.keymap.set({ 'n', 'v' }, '<leader>sw', function()
+      vim.keymap.set({ 'n', 'v' }, '<leader>w', function()
         builtin.grep_string {
           vimgrep_arguments = { 'ag', '--nocolor', '--noheading', '--filename', '--numbers', '--column', '--smart-case', '--hidden' },
         }
-      end, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sg', function()
+      end, { desc = 'Search current [W]ord' })
+      vim.keymap.set('n', ',t', function()
         builtin.live_grep {
           vimgrep_arguments = { 'ag', '--nocolor', '--noheading', '--filename', '--numbers', '--column', '--smart-case', '--hidden' },
         }
-      end, { desc = '[S]earch by [G]rep' })
+      end, { desc = 'Search by [T]he Silver Searcher' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
-      vim.keymap.set('n', '<leader><leader>', function()
+      -- vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
+      -- vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+      vim.keymap.set('n', '<leader>b', function()
         builtin.buffers { ignore_current_buffer = true, sort_mru = true }
-      end, { desc = '[ ] Find existing buffers' })
+      end, { desc = 'Find existing [B]uffers' })
 
       -- This runs on LSP attach per buffer (see main LSP attach function in 'neovim/nvim-lspconfig' config for more info,
       -- it is better explained there). This allows easily switching between pickers if you prefer using something else!
@@ -793,6 +794,13 @@ require('lazy').setup({
         documentation = { auto_show = false, auto_show_delay_ms = 500 },
       },
 
+      -- If you prefer more traditional completion keymaps,
+      -- you can uncomment the following lines
+      ['<CR>'] = cmp.mapping.confirm { select = true },
+      ['<Tab>'] = cmp.mapping.select_next_item(),
+      ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+      ['<Esc>'] = cmp.mapping.abort(),
+
       sources = {
         default = { 'lsp', 'path', 'snippets' },
       },
@@ -832,7 +840,25 @@ require('lazy').setup({
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'tokyonight-night'
+      -- vim.cmd.colorscheme 'tokyonight'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
     end,
+    opts = {
+      style = 'night',
+      styles = {
+        -- Style to be applied to different syntax groups
+        -- Value is any valid attr-list value for `:help nvim_set_hl`
+        comments = { italic = false },
+        keywords = { italic = false },
+      },
+      on_colors = function(colors)
+        colors.comment = '#6d79ad' -- lighter
+        colors.bg = '#06070a' -- darker
+        colors.error = '#f71616' -- more vivid
+      end,
+    },
   },
 
   -- Highlight todo, notes, etc in comments
