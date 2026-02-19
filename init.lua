@@ -639,7 +639,8 @@ require('lazy').setup({
       -- You can press `g?` for help in this menu.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'lua_ls', -- Lua Language server
+        -- 'lua_ls', -- Lua Language server
+        'lua-language-server',
         'stylua', -- Used to format Lua code
         -- You can add other tools here that you want Mason to install
       })
@@ -796,10 +797,11 @@ require('lazy').setup({
 
       -- If you prefer more traditional completion keymaps,
       -- you can uncomment the following lines
-      ['<CR>'] = cmp.mapping.confirm { select = true },
-      ['<Tab>'] = cmp.mapping.select_next_item(),
-      ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-      ['<Esc>'] = cmp.mapping.abort(),
+      --
+      -- ['<CR>'] = cmp.mapping.confirm { select = true },
+      -- ['<Tab>'] = cmp.mapping.select_next_item(),
+      -- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+      -- ['<Esc>'] = cmp.mapping.abort(),
 
       sources = {
         default = { 'lsp', 'path', 'snippets' },
